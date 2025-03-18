@@ -3,7 +3,7 @@
 
 // Classe Bicicleta
 class Bicicleta
-{
+{   
 public:
     Bicicleta(const std::string &modelo) : modelo_(modelo)
     {
