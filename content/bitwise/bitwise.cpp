@@ -34,45 +34,73 @@ void swap(int &a, int &b) {
 }
 int main()
 {
-  int a = 5;    // 0101
-  int b = 3;    // 0011
-  int c = a & b; // 0001 (1)
-                 //
-  int a = 5;    // 0101
-  int b = 3;    // 0011
-  int c = a | b; // 0111 (7)
-
-  int a = 5;    // 0101
-  int b = 3;    // 0011
-  int c = a ^ b; // 0110 (6)
-                 //
-  int a = 5;    // 0101
-  int b = ~a;   // 1010 (-6 in two's complement)
-                //
-  int a = 5;     // 0101
-  int b = a << 1; // 1010 (10)
-   
-
-   //
-  // Shifts bits to the right. For unsigned numbers, fills with zeros. For signed numbers, 
-  // behavior is implementation-defined (usually arithmetic shift).
-  unsigned a = 10; // 1010
-  unsigned b = a >> 1; // 0101 (5)
-                       //
-  int options = FLAG_A | FLAG_C; // 0101
-    
-  if (options & FLAG_A) {
-        std::cout << "Flag A is set\n";
+  {
+    int a = 5;    // 0101
+    int b = 3;    // 0011
+    int c = a & b; // 0001 (1)
+    std::cout << "a & b = " << c << "\n";
   }
-    
-  // Add FLAG_B
-  options |= FLAG_B;
-    
-  // Remove FLAG_A
-  options &= ~FLAG_A;
-    
-  // Toggle FLAG_C
-  options ^= FLAG_C;
-  
+
+  {
+    int a = 5;    // 0101
+    int b = 3;    // 0011
+    int c = a | b; // 0111 (7)
+    std::cout << "a | b = " << c << "\n";
+  }
+
+  {
+    int a = 5;    // 0101
+    int b = 3;    // 0011
+    int c = a ^ b; // 0110 (6)
+    std::cout << "a ^ b = " << c << "\n";
+  }
+
+  {
+    int a = 5;    // 0101
+    int b = ~a;   // 1010 (-6 in two's complement)
+    std::cout << "~a = " << b << "\n";
+  }
+
+  {
+    int a = 5;      // 0101
+    int b = a << 1; // 1010 (10)
+    std::cout << "a << 1 = " << b << "\n";
+  }
+
+  {
+    // Shifts bits to the right. For unsigned numbers, fills with zeros. For signed numbers,
+    // behavior is implementation-defined (usually arithmetic shift).
+    unsigned a = 10; // 1010
+    unsigned b = a >> 1; // 0101 (5)
+    std::cout << "a >> 1 = " << b << "\n";
+  }
+
+  {
+    int options = FLAG_A | FLAG_C; // 0101
+
+    if (options & FLAG_A) {
+      std::cout << "Flag A is set\n";
+    }
+
+    // Add FLAG_B
+    options |= FLAG_B;
+
+    // Remove FLAG_A
+    options &= ~FLAG_A;
+
+    // Toggle FLAG_C
+    options ^= FLAG_C;
+
+    std::cout << "options = " << options << "\n";
+    std::cout << "setBit(options, 0) = " << setBit(options, 0) << "\n";
+    std::cout << "clearBit(options, 1) = " << clearBit(options, 1) << "\n";
+    std::cout << "toggleBit(options, 2) = " << toggleBit(options, 2) << "\n";
+    std::cout << "countSetBits(options) = " << countSetBits(options) << "\n";
+
+    int x = 7, y = 9;
+    swap(x, y);
+    std::cout << "swapped: x=" << x << " y=" << y << "\n";
+  }
+
   return 0;
 }

@@ -1,0 +1,17 @@
+# Binários e artefatos de compilação
+*.o
+*.obj
+*.out
+*.exe
+*.out.dSYM/
+build/
+bin/
+
+# Arquivos de IDE/editor
+.vs/
+.idea/
+*.swp
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

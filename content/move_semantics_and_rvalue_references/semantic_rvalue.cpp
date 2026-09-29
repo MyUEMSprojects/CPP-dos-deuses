@@ -79,8 +79,11 @@ public:
     // Destrutor
     ~Recurso()
     {
-        delete dados;
+        // Importante: ler *dados ANTES do delete. Fazer delete e só depois
+        // dereferenciar o ponteiro (que continua com o mesmo endereço,
+        // agora liberado) é use-after-free e é undefined behavior.
         std::cout << "Destrutor: " << (dados ? *dados : "null") << "\n";
+        delete dados;
     }
 
     // Método para exibir os dados

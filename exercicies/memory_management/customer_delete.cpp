@@ -33,11 +33,12 @@ private:
     int *dados_;  // Array de inteiros
     int tamanho_; // Tamanho do array
 
-    // Custom deleter: libera a memória alocada
-    static void liberar_recurso(int *ptr)
+    // Custom deleter: recebe o próprio Recurso, libera o array e o objeto
+    static void liberar_recurso(Recurso *ptr)
     {
         std::cout << "Recurso liberado.\n";
-        delete[] ptr; // Libera o array de inteiros
+        delete[] ptr->dados_; // Libera o array de inteiros
+        delete ptr;           // Libera o objeto Recurso
     }
 
 public:

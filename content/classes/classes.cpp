@@ -19,14 +19,19 @@ public:
     Carro(const std::string &marca, const std::string &modelo, int ano)
         : marca(marca), modelo(modelo), ano(ano) {}
 
-    // Destrutor
-    ~Carro()
+    // Destrutor virtual: obrigatório em classes base usadas
+    // polimorficamente, para que delete via Carro* destrua o objeto
+    // derivado corretamente.
+    virtual ~Carro()
     {
         std::cout << "Destruindo o carro: " << marca << " " << modelo << "\n";
     }
 
     // Métodos públicos
-    void exibirDetalhes() const
+    // 'virtual' é necessário para que CarroEsportivo::exibirDetalhes()
+    // seja chamado via ponteiro/referência para Carro (polimorfismo real,
+    // dispatch em tempo de execução). Sem isso seria apenas "hiding".
+    virtual void exibirDetalhes() const
     {
         std::cout << "Marca: " << marca << ", Modelo: " << modelo << ", Ano: " << ano << "\n";
     }
@@ -84,7 +89,7 @@ public:
         : Carro(marca, modelo, ano), velocidadeMaxima(velocidadeMaxima) {}
 
     // Polimorfismo: Sobrescrevendo um método da classe base
-    void exibirDetalhes() const
+    void exibirDetalhes() const override
     {
         Carro::exibirDetalhes(); // Chama o método da classe base
         std::cout << "Velocidade Máxima: " << velocidadeMaxima << " km/h\n";
@@ -119,6 +124,13 @@ int main()
     CarroEsportivo carroEsportivo("Ferrari", "488 GTB", 2022, 330);
     std::cout << "Detalhes do carro esportivo:\n";
     carroEsportivo.exibirDetalhes();
+
+    // Polimorfismo em tempo de execução: o método correto (o da classe
+    // derivada) é escolhido mesmo acessando o objeto através de um
+    // ponteiro para a classe base, graças a 'virtual' + 'override'.
+    std::cout << "\nPolimorfismo via ponteiro para a classe base:\n";
+    Carro *ponteiroBase = &carroEsportivo;
+    ponteiroBase->exibirDetalhes();
 
     return 0;
 }

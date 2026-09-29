@@ -15,19 +15,26 @@
 int main()
 {
     int N = 0;
-    std::cin >> N;
+    std::cout << "Digite o tamanho do array: ";
+    if (!(std::cin >> N) || N <= 0)
+    {
+        std::cerr << "Entrada inválida: informe um inteiro positivo.\n";
+        return 1;
+    }
 
     int *vec = new int[N];
 
-    for (size_t i = 0; i < N - 1; i++)
+    for (int i = 0; i < N; i++)
     {
         vec[i] = i + 1;
     }
 
-    for (size_t i = 0; i < N - 1; i++)
+    for (int i = 0; i < N; i++)
     {
         std::cout << vec[i] << '\n';
     }
+
+    delete[] vec;
 
     return 0;
 }

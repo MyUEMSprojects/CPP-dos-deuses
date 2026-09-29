@@ -58,8 +58,10 @@ public:
         return temp;
     }
 
-    // Sobrecarga do operador de conversão para double (conversão implícita)
-    operator double() const
+    // Sobrecarga do operador de conversão para double (conversão explícita)
+    // 'explicit' evita conversões implícitas indesejadas (ex.: ambiguidade
+    // entre Vetor2D::operator*(double) e o operator* embutido para double)
+    explicit operator double() const
     {
         return std::sqrt(x * x + y * y); // Retorna a magnitude do vetor
     }

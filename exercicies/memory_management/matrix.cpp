@@ -10,6 +10,12 @@ int main()
     std::cout << "Digite o número de colunas: ";
     std::cin >> colunas;
 
+    if (!std::cin || linhas <= 0 || colunas <= 0)
+    {
+        std::cerr << "Entrada inválida: linhas e colunas devem ser inteiros positivos.\n";
+        return 1;
+    }
+
     // Alocação dinâmica da matriz
     int **matriz = new int *[linhas]; // Aloca um array de ponteiros para as linhas
     for (int i = 0; i < linhas; ++i)
