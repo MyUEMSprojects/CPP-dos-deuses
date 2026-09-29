@@ -3,18 +3,18 @@
 #include <stdexcept> // Para std::invalid_argument
 
 // Função que aloca dinamicamente um array de inteiros
-std::unique_ptr<int[]> criar_array(int tamanho)
+std::unique_ptr<int[]> create_array(int size)
 {
-    if (tamanho < 0)
+    if (size < 0)
     {
         throw std::invalid_argument("Tamanho do array não pode ser negativo.");
     }
 
     // Aloca dinamicamente um array de inteiros usando std::unique_ptr
-    auto array = std::make_unique<int[]>(tamanho);
+    auto array = std::make_unique<int[]>(size);
 
     // Preenche o array com valores sequenciais
-    for (int i = 0; i < tamanho; ++i)
+    for (int i = 0; i < size; ++i)
     {
         array[i] = i + 1;
     }
@@ -26,18 +26,18 @@ int main()
 {
     try
     {
-        int tamanho;
+        int size;
 
         // Solicita ao usuário o tamanho do array
         std::cout << "Digite o tamanho do array: ";
-        std::cin >> tamanho;
+        std::cin >> size;
 
         // Chama a função para criar o array
-        auto array = criar_array(tamanho);
+        auto array = create_array(size);
 
         // Imprime os valores do array
         std::cout << "Array criado: ";
-        for (int i = 0; i < tamanho; ++i)
+        for (int i = 0; i < size; ++i)
         {
             std::cout << array[i] << " ";
         }

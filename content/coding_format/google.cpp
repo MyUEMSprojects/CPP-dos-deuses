@@ -10,25 +10,25 @@
 // - Sempre inicialize variáveis.
 // - Use `nullptr` em vez de `NULL` ou `0`.
 
-class MinhaClasse
+class MyClass
 {
 public:
-    MinhaClasse(const std::string &nome) : nome_(nome) {}
+    MyClass(const std::string &name) : name_(name) {}
 
-    void exibir_nome() const
+    void display_name() const
     {
-        std::cout << "Nome: " << nome_ << "\n";
+        std::cout << "Nome: " << name_ << "\n";
     }
 
 private:
-    std::string nome_;
+    std::string name_;
 };
 
-void funcao_exemplo(int parametro)
+void example_function(int parameter)
 {
-    if (parametro > 0)
+    if (parameter > 0)
     {
-        std::cout << "Parâmetro positivo: " << parametro << "\n";
+        std::cout << "Parâmetro positivo: " << parameter << "\n";
     }
     else
     {
@@ -39,17 +39,17 @@ void funcao_exemplo(int parametro)
 int main()
 {
     // Exemplo de código seguindo o Google C++ Style Guide
-    MinhaClasse objeto("Exemplo");
-    objeto.exibir_nome();
+    MyClass object("Exemplo");
+    object.display_name();
 
-    int valor = 42;
-    funcao_exemplo(valor);
+    int value = 42;
+    example_function(value);
 
     // 2. Ferramentas de formatação (clang-format)
     // O código abaixo está desformatado intencionalmente.
     // Use clang-format para formatá-lo automaticamente.
-    std::vector<int> numeros = {1, 2, 3, 4, 5};
-    for (const auto &num : numeros)
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    for (const auto &num : numbers)
     {
         std::cout << num << " ";
     }

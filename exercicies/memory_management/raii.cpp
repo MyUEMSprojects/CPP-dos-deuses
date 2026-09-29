@@ -2,37 +2,37 @@
 #include <fstream>
 #include <stdexcept>
 
-class Arquivo
+class File
 {
 
 public:
     // Constructor: abre o arquivo
-    Arquivo(const std::string& nome_arquivo) {
-        arquivo_.open(nome_arquivo);
-        if(!arquivo_.is_open()) {
-            throw std::runtime_error("Erro ao abrir o arquivo: " + nome_arquivo);
+    File(const std::string& file_name) {
+        file_.open(file_name);
+        if(!file_.is_open()) {
+            throw std::runtime_error("Erro ao abrir o arquivo: " + file_name);
         }
-        std::cout << "Arquivo aberto: " << nome_arquivo << "\n";
+        std::cout << "Arquivo aberto: " << file_name << "\n";
     }
 
     // Destrutor: fecha o arquivo
-    ~Arquivo() {
-        if(arquivo_.is_open()) {
-            arquivo_.close();
+    ~File() {
+        if(file_.is_open()) {
+            file_.close();
             std::cout << "Arquivo fechado.\n";
         }
     }
 
     // Método para escrever dados no arquivo
-    void escrever(const std::string& dados) {
-        if(!arquivo_.is_open()) {
+    void write(const std::string& data) {
+        if(!file_.is_open()) {
             throw std::runtime_error("Arquivo não esta aberto.");
         }
-        arquivo_ << dados << "\n";
-        std::cout << "Dados escritos" << dados << "\n";
+        file_ << data << "\n";
+        std::cout << "Dados escritos" << data << "\n";
     }
 private:
-    std::ofstream arquivo_; // Stream para o arquivo
+    std::ofstream file_; // Stream para o arquivo
 };
 
 
@@ -40,20 +40,20 @@ int main()
 {
     try
     {
-        // Cria um Objeto Arquivo (abre o arquivo)
-        Arquivo arquivo("exemplo.txt");
+        // Cria um objeto File (abre o arquivo)
+        File file("exemplo.txt");
 
         // Escreva dados no arquivo
-        arquivo.escrever("Linha 1");
-        arquivo.escrever("Linha 2");
+        file.write("Linha 1");
+        file.write("Linha 2");
 
-        // Simula uma execação
+        // Simula uma exceção
         throw std::runtime_error("Erro simulado!");
     }
     catch(const std::exception& e)
     {
-        std::cerr << "Execação capturada: " <<  e.what() << '\n';
+        std::cerr << "Exceção capturada: " <<  e.what() << '\n';
     }
-    
+
     return 0;
 }

@@ -2,74 +2,74 @@
 #include <memory> // Para std::make_unique e std::make_shared
 #include <string>
 
-// Classe Produto
-class Produto
+// Classe Product
+class Product
 {
 public:
     // Construtor
-    Produto(const std::string &nome, double preco) : nome_(nome), preco_(preco)
+    Product(const std::string &name, double price) : name_(name), price_(price)
     {
-        std::cout << "Produto criado: " << nome_ << " (R$ " << preco_ << ")\n";
+        std::cout << "Produto criado: " << name_ << " (R$ " << price_ << ")\n";
     }
 
     // Destrutor
-    ~Produto()
+    ~Product()
     {
-        std::cout << "Produto destruído: " << nome_ << "\n";
+        std::cout << "Produto destruído: " << name_ << "\n";
     }
 
     // Métodos para acessar os atributos
-    std::string get_nome() const
+    std::string get_name() const
     {
-        return nome_;
+        return name_;
     }
 
-    double get_preco() const
+    double get_price() const
     {
-        return preco_;
+        return price_;
     }
 
 private:
-    std::string nome_;
-    double preco_;
+    std::string name_;
+    double price_;
 };
 
-// Função que recebe um std::shared_ptr<Produto>
-void exibir_produto_shared(const std::shared_ptr<Produto> &produto)
+// Função que recebe um std::shared_ptr<Product>
+void display_product_shared(const std::shared_ptr<Product> &product)
 {
-    std::cout << "Exibindo produto (shared): " << produto->get_nome()
-              << " (R$ " << produto->get_preco() << ")\n";
+    std::cout << "Exibindo produto (shared): " << product->get_name()
+              << " (R$ " << product->get_price() << ")\n";
 }
 
-// Função que recebe um std::unique_ptr<Produto>
-void exibir_produto_unique(const std::unique_ptr<Produto> &produto)
+// Função que recebe um std::unique_ptr<Product>
+void display_product_unique(const std::unique_ptr<Product> &product)
 {
-    std::cout << "Exibindo produto (unique): " << produto->get_nome()
-              << " (R$ " << produto->get_preco() << ")\n";
+    std::cout << "Exibindo produto (unique): " << product->get_name()
+              << " (R$ " << product->get_price() << ")\n";
 }
 
 int main()
 {
-    // Cria um Produto usando std::make_unique
-    auto produto_unique = std::make_unique<Produto>("Notebook", 3500.0);
+    // Cria um Product usando std::make_unique
+    auto unique_product = std::make_unique<Product>("Notebook", 3500.0);
 
     // Exibe o produto usando std::unique_ptr
-    exibir_produto_unique(produto_unique);
+    display_product_unique(unique_product);
 
     // Converte o std::unique_ptr para std::shared_ptr
-    std::shared_ptr<Produto> produto_shared = std::move(produto_unique);
+    std::shared_ptr<Product> shared_product = std::move(unique_product);
 
     // Exibe o produto usando std::shared_ptr
-    exibir_produto_shared(produto_shared);
+    display_product_shared(shared_product);
 
     // Cria outro std::shared_ptr que compartilha a propriedade do mesmo produto
-    auto outro_shared = produto_shared;
+    auto another_shared = shared_product;
 
     // Exibe o produto novamente
-    exibir_produto_shared(outro_shared);
+    display_product_shared(another_shared);
 
     // Mostra a contagem de referências do std::shared_ptr
-    std::cout << "Contagem de referências: " << produto_shared.use_count() << "\n";
+    std::cout << "Contagem de referências: " << shared_product.use_count() << "\n";
 
     return 0;
 }

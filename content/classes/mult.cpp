@@ -1,46 +1,46 @@
 #include <iostream>
 
-class Veiculo
+class Vehicle
 {
 public:
-    void mover()
+    void move()
     {
         std::cout << "Veiculo está se movendo.\n";
     }
 };
 
-class Aquatico
+class Aquatic
 {
 public:
-    void nadar()
+    void swim()
     {
         std::cout << "Aquatico está nadando.\n";
     }
 };
 
-class Terrestre
+class Terrestrial
 {
 public:
-    void andar()
+    void walk()
     {
         std::cout << "Terrestre está andando.\n";
     }
 };
 
 // Herança múltipla
-class Anfibio : public Aquatico, public Terrestre
+class Amphibian : public Aquatic, public Terrestrial
 {
 public:
-    void mostrarHabilidades()
+    void showAbilities()
     {
-        nadar();
-        andar();
+        swim();
+        walk();
     }
 };
 
 int main()
 {
-    Anfibio anfibio;
-    anfibio.mostrarHabilidades();
+    Amphibian amphibian;
+    amphibian.showAbilities();
     return 0;
 }

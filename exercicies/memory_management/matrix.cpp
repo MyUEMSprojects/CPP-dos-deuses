@@ -2,54 +2,54 @@
 
 int main()
 {
-    int linhas, colunas;
+    int rows, columns;
 
     // Solicita ao usuário as dimensões da matriz
     std::cout << "Digite o número de linhas: ";
-    std::cin >> linhas;
+    std::cin >> rows;
     std::cout << "Digite o número de colunas: ";
-    std::cin >> colunas;
+    std::cin >> columns;
 
-    if (!std::cin || linhas <= 0 || colunas <= 0)
+    if (!std::cin || rows <= 0 || columns <= 0)
     {
         std::cerr << "Entrada inválida: linhas e colunas devem ser inteiros positivos.\n";
         return 1;
     }
 
     // Alocação dinâmica da matriz
-    int **matriz = new int *[linhas]; // Aloca um array de ponteiros para as linhas
-    for (int i = 0; i < linhas; ++i)
+    int **matrix = new int *[rows]; // Aloca um array de ponteiros para as linhas
+    for (int i = 0; i < rows; ++i)
     {
-        matriz[i] = new int[colunas]; // Aloca um array de inteiros para cada linha
+        matrix[i] = new int[columns]; // Aloca um array de inteiros para cada linha
     }
 
     // Preenche a matriz com valores sequenciais
-    int contador = 1;
-    for (int i = 0; i < linhas; ++i)
+    int counter = 1;
+    for (int i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < colunas; ++j)
+        for (int j = 0; j < columns; ++j)
         {
-            matriz[i][j] = contador++;
+            matrix[i][j] = counter++;
         }
     }
 
     // Imprime a matriz
     std::cout << "Matriz:\n";
-    for (int i = 0; i < linhas; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < colunas; ++j)
+        for (int j = 0; j < columns; ++j)
         {
-            std::cout << matriz[i][j] << "\t";
+            std::cout << matrix[i][j] << "\t";
         }
         std::cout << "\n";
     }
 
     // Liberação da memória alocada
-    for (int i = 0; i < linhas; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        delete[] matriz[i]; // Libera cada linha da matriz
+        delete[] matrix[i]; // Libera cada linha da matriz
     }
-    delete[] matriz; // Libera o array de ponteiros
+    delete[] matrix; // Libera o array de ponteiros
 
     std::cout << "Memória liberada. Fim do programa.\n";
 

@@ -1,86 +1,86 @@
 #include <iostream>
 #include <memory>
 
-// Classe Bicicleta
-class Bicicleta
-{   
+// Classe Bicycle
+class Bicycle
+{
 public:
-    Bicicleta(const std::string &modelo) : modelo_(modelo)
+    Bicycle(const std::string &model) : model_(model)
     {
-        std::cout << "Bicicleta " << modelo_ << " criada.\n";
+        std::cout << "Bicicleta " << model_ << " criada.\n";
     }
 
-    ~Bicicleta()
+    ~Bicycle()
     {
-        std::cout << "Bicicleta " << modelo_ << " destruída.\n";
+        std::cout << "Bicicleta " << model_ << " destruída.\n";
     }
 
-    std::string get_modelo() const
+    std::string get_model() const
     {
-        return modelo_;
+        return model_;
     }
 
 private:
-    std::string modelo_;
+    std::string model_;
 };
 
-// Classe Ciclista
-class Ciclista
+// Classe Cyclist
+class Cyclist
 {
 public:
-    Ciclista(const std::string &nome) : nome_(nome)
+    Cyclist(const std::string &name) : name_(name)
     {
-        std::cout << "Ciclista " << nome_ << " criado.\n";
+        std::cout << "Ciclista " << name_ << " criado.\n";
     }
 
-    ~Ciclista()
+    ~Cyclist()
     {
-        std::cout << "Ciclista " << nome_ << " destruído.\n";
+        std::cout << "Ciclista " << name_ << " destruído.\n";
     }
 
-    void atribuir_bicicleta(std::shared_ptr<Bicicleta> bicicleta)
+    void assign_bicycle(std::shared_ptr<Bicycle> bicycle)
     {
-        bicicleta_ = bicicleta;
-        std::cout << nome_ << " está usando a bicicleta " << bicicleta->get_modelo() << ".\n";
+        bicycle_ = bicycle;
+        std::cout << name_ << " está usando a bicicleta " << bicycle->get_model() << ".\n";
     }
 
-    void usar_bicicleta()
+    void ride_bicycle()
     {
-        if (auto bicicleta = bicicleta_.lock())
+        if (auto bicycle = bicycle_.lock())
         {
-            std::cout << nome_ << " está pedalando a bicicleta " << bicicleta->get_modelo() << ".\n";
+            std::cout << name_ << " está pedalando a bicicleta " << bicycle->get_model() << ".\n";
         }
         else
         {
-            std::cout << nome_ << " não tem uma bicicleta para pedalar.\n";
+            std::cout << name_ << " não tem uma bicicleta para pedalar.\n";
         }
     }
 
 private:
-    std::string nome_;
-    std::weak_ptr<Bicicleta> bicicleta_; // Usa weak_ptr para evitar ciclos de referência
+    std::string name_;
+    std::weak_ptr<Bicycle> bicycle_; // Usa weak_ptr para evitar ciclos de referência
 };
 
 int main()
 {
     // Cria uma bicicleta gerenciada por shared_ptr
-    auto bicicleta = std::make_shared<Bicicleta>("Mountain Bike");
+    auto bicycle = std::make_shared<Bicycle>("Mountain Bike");
 
     {
         // Cria um ciclista
-        Ciclista ciclista("João");
+        Cyclist cyclist("João");
 
         // Atribui a bicicleta ao ciclista
-        ciclista.atribuir_bicicleta(bicicleta);
+        cyclist.assign_bicycle(bicycle);
 
         // Usa a bicicleta
-        ciclista.usar_bicicleta();
+        cyclist.ride_bicycle();
 
         // O ciclista sai do escopo aqui
     }
 
     // A bicicleta ainda existe, pois o shared_ptr principal ainda a mantém viva
-    std::cout << "Bicicleta ainda existe? " << (bicicleta ? "Sim" : "Não") << "\n";
+    std::cout << "Bicicleta ainda existe? " << (bicycle ? "Sim" : "Não") << "\n";
 
     return 0;
 }

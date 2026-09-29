@@ -5,16 +5,16 @@
 #include <coroutine>   // Para coroutines (C++20)
 
 // 1. auto e decltype
-auto soma(auto a, auto b) -> decltype(a + b)
+auto sum(auto a, auto b) -> decltype(a + b)
 {
     return a + b;
 }
 
 // 2. Range-based for loops
-void exemploRangeBasedFor()
+void rangeBasedForExample()
 {
-    std::vector<int> numeros = {1, 2, 3, 4, 5};
-    for (const auto &num : numeros)
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    for (const auto &num : numbers)
     {
         std::cout << num << " ";
     }
@@ -22,27 +22,27 @@ void exemploRangeBasedFor()
 }
 
 // 3. Lambda expressions
-void exemploLambda()
+void lambdaExample()
 {
-    auto quadrado = [](int x)
+    auto square = [](int x)
     { return x * x; };
-    std::cout << "Quadrado de 5: " << quadrado(5) << "\n";
+    std::cout << "Quadrado de 5: " << square(5) << "\n";
 }
 
 // 4. constexpr e if constexpr
-constexpr int fatorial(int n)
+constexpr int factorial(int n)
 {
     if (n <= 1)
         return 1;
-    return n * fatorial(n - 1);
+    return n * factorial(n - 1);
 }
 
 template <typename T>
-void verificarTipo(T valor)
+void checkType(T value)
 {
     if constexpr (std::is_integral_v<T>)
     {
-        std::cout << "Tipo integral: " << valor << "\n";
+        std::cout << "Tipo integral: " << value << "\n";
     }
     else
     {
@@ -51,11 +51,11 @@ void verificarTipo(T valor)
 }
 
 // 5. Structured bindings
-void exemploStructuredBindings()
+void structuredBindingsExample()
 {
-    std::tuple<int, std::string, double> tupla(42, "Hello", 3.14);
-    auto [numero, texto, valor] = tupla; // Desestruturação
-    std::cout << "Número: " << numero << ", Texto: " << texto << ", Valor: " << valor << "\n";
+    std::tuple<int, std::string, double> tup(42, "Hello", 3.14);
+    auto [number, text, value] = tup; // Desestruturação
+    std::cout << "Número: " << number << ", Texto: " << text << ", Valor: " << value << "\n";
 }
 
 // 6. Concepts (C++20)
@@ -63,37 +63,64 @@ template <typename T>
 concept Integral = std::is_integral_v<T>;
 
 template <Integral T>
-T dobrar(T valor)
+T doubleValue(T value)
 {
-    return valor * 2;
+    return value * 2;
 }
 
 // 7. Modules (C++20) - Exemplo básico (requer suporte do compilador)
-// Módulo seria definido em um arquivo separado (ex: modulo.cppm)
+// Módulo seria definido em um arquivo separado (ex: module.cppm)
 /*
-export module modulo;
+export module my_module;
 
-export int multiplicar(int a, int b) {
+export int multiply(int a, int b) {
     return a * b;
 }
 */
 
 // 8. Coroutines (C++20)
-struct CoroutineExemplo
+struct CoroutineExample
 {
     struct promise_type
     {
-        CoroutineExemplo get_return_object() { return {}; }
-        std::suspend_never initial_suspend() { return {}; }
-        std::suspend_never final_suspend() noexcept { return {}; }
+        CoroutineExample get_return_object()
+        {
+            return CoroutineExample{std::coroutine_handle<promise_type>::from_promise(*this)};
+        }
+        // 'suspend_always' no início: a coroutine não roda nada até o
+        // primeiro resume() explícito (execução "preguiçosa").
+        std::suspend_always initial_suspend() { return {}; }
+        std::suspend_always final_suspend() noexcept { return {}; }
         void return_void() {}
-        void unhandled_exception() {}
+        void unhandled_exception() { std::terminate(); }
     };
 
     std::coroutine_handle<promise_type> handle;
+
+    explicit CoroutineExample(std::coroutine_handle<promise_type> h) : handle(h) {}
+    ~CoroutineExample()
+    {
+        if (handle)
+        {
+            handle.destroy();
+        }
+    }
+
+    // Sem cópia (dono único do handle); poderíamos adicionar move se necessário.
+    CoroutineExample(const CoroutineExample &) = delete;
+    CoroutineExample &operator=(const CoroutineExample &) = delete;
+
+    bool resume()
+    {
+        if (handle && !handle.done())
+        {
+            handle.resume();
+        }
+        return handle && !handle.done();
+    }
 };
 
-CoroutineExemplo exemploCoroutine()
+CoroutineExample coroutineExample()
 {
     std::cout << "Coroutine iniciada.\n";
     co_await std::suspend_always{};
@@ -103,36 +130,40 @@ CoroutineExemplo exemploCoroutine()
 int main()
 {
     // 1. auto e decltype
-    std::cout << "Soma de 3 e 4.5: " << soma(3, 4.5) << "\n";
+    std::cout << "Soma de 3 e 4.5: " << sum(3, 4.5) << "\n";
 
     // 2. Range-based for loops
     std::cout << "Range-based for loop:\n";
-    exemploRangeBasedFor();
+    rangeBasedForExample();
 
     // 3. Lambda expressions
     std::cout << "Lambda expression:\n";
-    exemploLambda();
+    lambdaExample();
 
     // 4. constexpr e if constexpr
-    std::cout << "Fatorial de 5 (constexpr): " << fatorial(5) << "\n";
-    verificarTipo(10);   // Tipo integral
-    verificarTipo(3.14); // Tipo não integral
+    std::cout << "Fatorial de 5 (constexpr): " << factorial(5) << "\n";
+    checkType(10);   // Tipo integral
+    checkType(3.14); // Tipo não integral
 
     // 5. Structured bindings
     std::cout << "Structured bindings:\n";
-    exemploStructuredBindings();
+    structuredBindingsExample();
 
     // 6. Concepts (C++20)
-    std::cout << "Dobrar (concepts): " << dobrar(10) << "\n";
+    std::cout << "Dobrar (concepts): " << doubleValue(10) << "\n";
 
     // 7. Modules (C++20) - Exemplo básico (requer suporte do compilador)
-    // int resultado = multiplicar(3, 4);
-    // std::cout << "Multiplicar (modules): " << resultado << "\n";
+    // int result = multiply(3, 4);
+    // std::cout << "Multiplicar (modules): " << result << "\n";
 
     // 8. Coroutines (C++20)
+    // Como initial_suspend() é suspend_always, é preciso chamar resume()
+    // explicitamente para a coroutine avançar até o próximo ponto de
+    // suspensão (co_await) a cada chamada.
     std::cout << "Coroutines:\n";
-    auto coroutine = exemploCoroutine();
-    (void)coroutine; // Evitar aviso de variável não utilizada
+    auto coro = coroutineExample();
+    coro.resume(); // executa até o co_await -> imprime "Coroutine iniciada."
+    coro.resume(); // retoma após o co_await -> imprime "Coroutine continuada."
 
     return 0;
 }

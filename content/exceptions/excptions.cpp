@@ -3,53 +3,53 @@
 #include <stdexcept> // Para std::exception e std::runtime_error
 
 // 1. Tratamento de exceções básico
-void exemploBasico() {
+void basicExample() {
     try {
-        int idade;
+        int age;
         std::cout << "Digite sua idade: ";
-        std::cin >> idade;
+        std::cin >> age;
 
-        if (idade < 0) {
+        if (age < 0) {
             throw std::runtime_error("Idade não pode ser negativa!"); // Lança uma exceção
         }
 
-        std::cout << "Sua idade é: " << idade << "\n";
+        std::cout << "Sua idade é: " << age << "\n";
     } catch (const std::exception& e) {
         std::cerr << "Erro: " << e.what() << "\n"; // Captura e trata a exceção
     }
 }
 
 // 2. Criação de exceções personalizadas
-class IdadeInvalidaException : public std::exception {
+class InvalidAgeException : public std::exception {
 public:
-    IdadeInvalidaException(const std::string& mensagem) : mensagem(mensagem) {}
+    InvalidAgeException(const std::string& message) : message(message) {}
 
     const char* what() const noexcept override {
-        return mensagem.c_str();
+        return message.c_str();
     }
 
 private:
-    std::string mensagem;
+    std::string message;
 };
 
-void exemploExcecaoPersonalizada() {
+void customExceptionExample() {
     try {
-        int idade;
+        int age;
         std::cout << "Digite sua idade: ";
-        std::cin >> idade;
+        std::cin >> age;
 
-        if (idade < 0) {
-            throw IdadeInvalidaException("Idade não pode ser negativa!"); // Lança exceção personalizada
+        if (age < 0) {
+            throw InvalidAgeException("Idade não pode ser negativa!"); // Lança exceção personalizada
         }
 
-        std::cout << "Sua idade é: " << idade << "\n";
+        std::cout << "Sua idade é: " << age << "\n";
     } catch (const std::exception& e) {
         std::cerr << "Erro: " << e.what() << "\n"; // Captura e trata a exceção
     }
 }
 
 // 3. Boas práticas no uso de exceções
-void exemploBoasPraticas() {
+void bestPracticesExample() {
     try {
         int* ptr = new int(42); // Alocação dinâmica de memória
 
@@ -76,13 +76,13 @@ void exemploBoasPraticas() {
 
 int main() {
     std::cout << "=== Exemplo básico de tratamento de exceções ===\n";
-    exemploBasico();
+    basicExample();
 
     std::cout << "\n=== Exemplo de exceção personalizada ===\n";
-    exemploExcecaoPersonalizada();
+    customExceptionExample();
 
     std::cout << "\n=== Exemplo de boas práticas com exceções ===\n";
-    exemploBoasPraticas();
+    bestPracticesExample();
 
     return 0;
 }

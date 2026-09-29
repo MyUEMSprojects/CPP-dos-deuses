@@ -11,14 +11,14 @@
 // - Dependency Inversion Principle (DIP): Dependa de abstrações, não de implementações.
 
 // Exemplo de SRP: Uma classe que gerencia apenas a lógica de um usuário.
-class Usuario
+class User
 {
 public:
-    Usuario(const std::string &nome) : nome(nome) {}
-    std::string getNome() const { return nome; }
+    User(const std::string &name) : name(name) {}
+    std::string getName() const { return name; }
 
 private:
-    std::string nome;
+    std::string name;
 };
 
 // 2. Design Patterns
@@ -32,7 +32,7 @@ public:
         return instance;
     }
 
-    void fazerAlgo()
+    void doSomething()
     {
         std::cout << "Singleton está fazendo algo.\n";
     }
@@ -44,43 +44,43 @@ private:
 };
 
 // Factory: Cria objetos sem especificar a classe exata.
-class Produto
+class Product
 {
 public:
-    virtual void usar() = 0;
-    virtual ~Produto() = default;
+    virtual void use() = 0;
+    virtual ~Product() = default;
 };
 
-class ProdutoA : public Produto
+class ProductA : public Product
 {
 public:
-    void usar() override
+    void use() override
     {
         std::cout << "Usando Produto A.\n";
     }
 };
 
-class ProdutoB : public Produto
+class ProductB : public Product
 {
 public:
-    void usar() override
+    void use() override
     {
         std::cout << "Usando Produto B.\n";
     }
 };
 
-class Fabrica
+class Factory
 {
 public:
-    static std::unique_ptr<Produto> criarProduto(const std::string &tipo)
+    static std::unique_ptr<Product> createProduct(const std::string &type)
     {
-        if (tipo == "A")
+        if (type == "A")
         {
-            return std::make_unique<ProdutoA>();
+            return std::make_unique<ProductA>();
         }
-        else if (tipo == "B")
+        else if (type == "B")
         {
-            return std::make_unique<ProdutoB>();
+            return std::make_unique<ProductB>();
         }
         return nullptr;
     }
@@ -90,23 +90,23 @@ public:
 class Observer
 {
 public:
-    virtual void atualizar(const std::string &mensagem) = 0;
+    virtual void update(const std::string &message) = 0;
     virtual ~Observer() = default;
 };
 
-class Assunto
+class Subject
 {
 public:
-    void adicionarObserver(std::shared_ptr<Observer> observer)
+    void addObserver(std::shared_ptr<Observer> observer)
     {
         observers.push_back(observer);
     }
 
-    void notificar(const std::string &mensagem)
+    void notify(const std::string &message)
     {
         for (const auto &observer : observers)
         {
-            observer->atualizar(mensagem);
+            observer->update(message);
         }
     }
 
@@ -114,41 +114,41 @@ private:
     std::vector<std::shared_ptr<Observer>> observers;
 };
 
-class ObservadorConcreto : public Observer
+class ConcreteObserver : public Observer
 {
 public:
-    void atualizar(const std::string &mensagem) override
+    void update(const std::string &message) override
     {
-        std::cout << "Observador recebeu: " << mensagem << "\n";
+        std::cout << "Observador recebeu: " << message << "\n";
     }
 };
 
 // 3. Uso de namespaces
-namespace MinhaAplicacao
+namespace MyApp
 {
-    void funcao()
+    void run()
     {
-        std::cout << "Função dentro do namespace MinhaAplicacao.\n";
+        std::cout << "Função dentro do namespace MyApp.\n";
     }
 }
 
 // 4. Const-correctness
-class ExemploConst
+class ConstExample
 {
 public:
-    void metodoConst() const
+    void constMethod() const
     {
         std::cout << "Método const chamado.\n";
     }
 
-    void metodoNaoConst()
+    void nonConstMethod()
     {
         std::cout << "Método não const chamado.\n";
     }
 };
 
 // 5. Prevenção de vazamentos de memória e dangling pointers
-void exemploSmartPointers()
+void smartPointersExample()
 {
     auto ptr = std::make_unique<int>(42); // std::unique_ptr
     std::cout << "Valor: " << *ptr << "\n";
@@ -166,40 +166,40 @@ void exemploSmartPointers()
 int main()
 {
     // 1. Princípios SOLID
-    Usuario usuario("João");
-    std::cout << "Nome do usuário: " << usuario.getNome() << "\n";
+    User user("João");
+    std::cout << "Nome do usuário: " << user.getName() << "\n";
 
     // 2. Design Patterns
     // Singleton
-    Singleton::getInstance().fazerAlgo();
+    Singleton::getInstance().doSomething();
 
     // Factory
-    auto produtoA = Fabrica::criarProduto("A");
-    produtoA->usar();
+    auto productA = Factory::createProduct("A");
+    productA->use();
 
-    auto produtoB = Fabrica::criarProduto("B");
-    produtoB->usar();
+    auto productB = Factory::createProduct("B");
+    productB->use();
 
     // Observer
-    Assunto assunto;
-    auto observador = std::make_shared<ObservadorConcreto>();
-    assunto.adicionarObserver(observador);
-    assunto.notificar("Mensagem de notificação");
+    Subject subject;
+    auto observer = std::make_shared<ConcreteObserver>();
+    subject.addObserver(observer);
+    subject.notify("Mensagem de notificação");
 
     // 3. Uso de namespaces
-    MinhaAplicacao::funcao();
+    MyApp::run();
 
     // 4. Const-correctness
-    ExemploConst exemplo;
-    exemplo.metodoConst();
-    exemplo.metodoNaoConst();
+    ConstExample example;
+    example.constMethod();
+    example.nonConstMethod();
 
-    const ExemploConst exemploConst;
-    exemploConst.metodoConst();
-    // exemploConst.metodoNaoConst(); // Erro: Não pode chamar método não const em objeto const
+    const ConstExample constExample;
+    constExample.constMethod();
+    // constExample.nonConstMethod(); // Erro: Não pode chamar método não const em objeto const
 
     // 5. Prevenção de vazamentos de memória e dangling pointers
-    exemploSmartPointers();
+    smartPointersExample();
 
     return 0;
 }

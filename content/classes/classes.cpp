@@ -2,135 +2,135 @@
 #include <string>
 
 // 1. Definição de classes e objetos
-class Carro
+class Car
 {
 private:
     // 2. Membros de classe (atributos e métodos)
-    std::string marca;
-    std::string modelo;
-    int ano;
+    std::string brand;
+    std::string model;
+    int year;
 
 public:
     // 3. Construtores e destrutores
     // Construtor padrão
-    Carro() : marca("Desconhecida"), modelo("Desconhecido"), ano(0) {}
+    Car() : brand("Unknown"), model("Unknown"), year(0) {}
 
     // Construtor parametrizado
-    Carro(const std::string &marca, const std::string &modelo, int ano)
-        : marca(marca), modelo(modelo), ano(ano) {}
+    Car(const std::string &brand, const std::string &model, int year)
+        : brand(brand), model(model), year(year) {}
 
     // Destrutor virtual: obrigatório em classes base usadas
-    // polimorficamente, para que delete via Carro* destrua o objeto
+    // polimorficamente, para que delete via Car* destrua o objeto
     // derivado corretamente.
-    virtual ~Carro()
+    virtual ~Car()
     {
-        std::cout << "Destruindo o carro: " << marca << " " << modelo << "\n";
+        std::cout << "Destruindo o carro: " << brand << " " << model << "\n";
     }
 
     // Métodos públicos
-    // 'virtual' é necessário para que CarroEsportivo::exibirDetalhes()
-    // seja chamado via ponteiro/referência para Carro (polimorfismo real,
+    // 'virtual' é necessário para que SportsCar::showDetails()
+    // seja chamado via ponteiro/referência para Car (polimorfismo real,
     // dispatch em tempo de execução). Sem isso seria apenas "hiding".
-    virtual void exibirDetalhes() const
+    virtual void showDetails() const
     {
-        std::cout << "Marca: " << marca << ", Modelo: " << modelo << ", Ano: " << ano << "\n";
+        std::cout << "Marca: " << brand << ", Modelo: " << model << ", Ano: " << year << "\n";
     }
 
     // 4. Modificadores de acesso (getters e setters)
-    void setMarca(const std::string &marca)
+    void setBrand(const std::string &brand)
     {
-        this->marca = marca;
+        this->brand = brand;
     }
 
-    std::string getMarca() const
+    std::string getBrand() const
     {
-        return marca;
+        return brand;
     }
 
-    void setModelo(const std::string &modelo)
+    void setModel(const std::string &model)
     {
-        this->modelo = modelo;
+        this->model = model;
     }
 
-    std::string getModelo() const
+    std::string getModel() const
     {
-        return modelo;
+        return model;
     }
 
-    void setAno(int ano)
+    void setYear(int year)
     {
-        this->ano = ano;
+        this->year = year;
     }
 
-    int getAno() const
+    int getYear() const
     {
-        return ano;
+        return year;
     }
 
     // 6. Função amiga (friend)
-    friend void exibirInformacoesPrivadas(const Carro &carro);
+    friend void showPrivateInfo(const Car &car);
 };
 
 // 6. Função amiga (friend)
-void exibirInformacoesPrivadas(const Carro &carro)
+void showPrivateInfo(const Car &car)
 {
-    std::cout << "Informações privadas (friend): " << carro.marca << " " << carro.modelo << " " << carro.ano << "\n";
+    std::cout << "Informações privadas (friend): " << car.brand << " " << car.model << " " << car.year << "\n";
 }
 
 // 5. Encapsulamento, herança e polimorfismo
-class CarroEsportivo : public Carro
+class SportsCar : public Car
 {
 private:
-    int velocidadeMaxima;
+    int topSpeed;
 
 public:
     // Construtor
-    CarroEsportivo(const std::string &marca, const std::string &modelo, int ano, int velocidadeMaxima)
-        : Carro(marca, modelo, ano), velocidadeMaxima(velocidadeMaxima) {}
+    SportsCar(const std::string &brand, const std::string &model, int year, int topSpeed)
+        : Car(brand, model, year), topSpeed(topSpeed) {}
 
     // Polimorfismo: Sobrescrevendo um método da classe base
-    void exibirDetalhes() const override
+    void showDetails() const override
     {
-        Carro::exibirDetalhes(); // Chama o método da classe base
-        std::cout << "Velocidade Máxima: " << velocidadeMaxima << " km/h\n";
+        Car::showDetails(); // Chama o método da classe base
+        std::cout << "Velocidade Máxima: " << topSpeed << " km/h\n";
     }
 };
 
 int main()
 {
     // 1. Definição de classes e objetos
-    Carro carro1; // Usando o construtor padrão
-    carro1.setMarca("Toyota");
-    carro1.setModelo("Corolla");
-    carro1.setAno(2020);
+    Car car1; // Usando o construtor padrão
+    car1.setBrand("Toyota");
+    car1.setModel("Corolla");
+    car1.setYear(2020);
 
-    Carro carro2("Ford", "Mustang", 1967); // Usando o construtor parametrizado
+    Car car2("Ford", "Mustang", 1967); // Usando o construtor parametrizado
 
     // 2. Membros de classe (atributos e métodos)
     std::cout << "Detalhes do carro1:\n";
-    carro1.exibirDetalhes();
+    car1.showDetails();
 
     std::cout << "Detalhes do carro2:\n";
-    carro2.exibirDetalhes();
+    car2.showDetails();
 
     // 4. Modificadores de acesso (getters e setters)
-    carro1.setAno(2021);
-    std::cout << "Novo ano do carro1: " << carro1.getAno() << "\n";
+    car1.setYear(2021);
+    std::cout << "Novo ano do carro1: " << car1.getYear() << "\n";
 
     // 6. Função amiga (friend)
-    exibirInformacoesPrivadas(carro2);
+    showPrivateInfo(car2);
 
     // 5. Encapsulamento, herança e polimorfismo
-    CarroEsportivo carroEsportivo("Ferrari", "488 GTB", 2022, 330);
+    SportsCar sportsCar("Ferrari", "488 GTB", 2022, 330);
     std::cout << "Detalhes do carro esportivo:\n";
-    carroEsportivo.exibirDetalhes();
+    sportsCar.showDetails();
 
     // Polimorfismo em tempo de execução: o método correto (o da classe
     // derivada) é escolhido mesmo acessando o objeto através de um
     // ponteiro para a classe base, graças a 'virtual' + 'override'.
     std::cout << "\nPolimorfismo via ponteiro para a classe base:\n";
-    Carro *ponteiroBase = &carroEsportivo;
-    ponteiroBase->exibirDetalhes();
+    Car *basePointer = &sportsCar;
+    basePointer->showDetails();
 
     return 0;
 }

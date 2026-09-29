@@ -7,83 +7,83 @@
 #include <vector>
 
 // 1. Threads (std::thread)
-void funcaoThread(int id)
+void threadFunction(int id)
 {
     std::cout << "Thread " << id << " em execução.\n";
 }
 
 // 2. Mutexes e locks (std::mutex, std::lock_guard, std::unique_lock)
 std::mutex mtx;
-int contador = 0;
+int counter = 0;
 
-void incrementarContador()
+void incrementCounter()
 {
     for (int i = 0; i < 1000; ++i)
     {
         std::lock_guard<std::mutex> lock(mtx); // Bloqueia o mutex
-        ++contador;
+        ++counter;
     }
 }
 
 // 3. Condition variables
 std::condition_variable cv;
-bool pronto = false;
+bool ready = false;
 
-void esperarPronto()
+void waitUntilReady()
 {
     std::unique_lock<std::mutex> lock(mtx);
     cv.wait(lock, []
-            { return pronto; }); // Espera até que "pronto" seja true
+            { return ready; }); // Espera até que "ready" seja true
     std::cout << "Pronto! Continuando a execução.\n";
 }
 
-void definirPronto()
+void setReady()
 {
     std::this_thread::sleep_for(std::chrono::seconds(2)); // Simula um atraso
     {
         std::lock_guard<std::mutex> lock(mtx);
-        pronto = true;
+        ready = true;
     }
     cv.notify_all(); // Notifica todas as threads em espera
 }
 
 // 4. Futures e promises (std::future, std::promise)
-int calcularQuadrado(int x)
+int calculateSquare(int x)
 {
     return x * x;
 }
 
-void exemploFuturePromise()
+void futurePromiseExample()
 {
-    std::promise<int> promessa;
-    std::future<int> futuro = promessa.get_future();
+    std::promise<int> promise;
+    std::future<int> future = promise.get_future();
 
-    std::thread t([&promessa]
+    std::thread t([&promise]
                   {
-                      int resultado = calcularQuadrado(5);
-                      promessa.set_value(resultado); // Define o valor da promessa
+                      int result = calculateSquare(5);
+                      promise.set_value(result); // Define o valor da promise
                   });
 
-    std::cout << "Quadrado de 5: " << futuro.get() << "\n"; // Obtém o valor do futuro
+    std::cout << "Quadrado de 5: " << future.get() << "\n"; // Obtém o valor do future
     t.join();
 }
 
 // 5. Atomics
-std::atomic<int> contadorAtomico(0);
+std::atomic<int> atomicCounter(0);
 
-void incrementarContadorAtomico()
+void incrementAtomicCounter()
 {
     for (int i = 0; i < 1000; ++i)
     {
-        ++contadorAtomico; // Operação atômica
+        ++atomicCounter; // Operação atômica
     }
 }
 
 int main()
 {
     // 1. Threads (std::thread)
-    std::thread t1(funcaoThread, 1);
-    std::thread t2(funcaoThread, 2);
+    std::thread t1(threadFunction, 1);
+    std::thread t2(threadFunction, 2);
     t1.join();
     t2.join();
 
@@ -91,34 +91,34 @@ int main()
     std::vector<std::thread> threads;
     for (int i = 0; i < 10; ++i)
     {
-        threads.emplace_back(incrementarContador);
+        threads.emplace_back(incrementCounter);
     }
     for (auto &t : threads)
     {
         t.join();
     }
-    std::cout << "Contador: " << contador << "\n";
+    std::cout << "Contador: " << counter << "\n";
 
     // 3. Condition variables
-    std::thread t3(esperarPronto);
-    std::thread t4(definirPronto);
+    std::thread t3(waitUntilReady);
+    std::thread t4(setReady);
     t3.join();
     t4.join();
 
     // 4. Futures e promises (std::future, std::promise)
-    exemploFuturePromise();
+    futurePromiseExample();
 
     // 5. Atomics
-    std::vector<std::thread> threadsAtomicas;
+    std::vector<std::thread> atomicThreads;
     for (int i = 0; i < 10; ++i)
     {
-        threadsAtomicas.emplace_back(incrementarContadorAtomico);
+        atomicThreads.emplace_back(incrementAtomicCounter);
     }
-    for (auto &t : threadsAtomicas)
+    for (auto &t : atomicThreads)
     {
         t.join();
     }
-    std::cout << "Contador atômico: " << contadorAtomico << "\n";
+    std::cout << "Contador atômico: " << atomicCounter << "\n";
 
     return 0;
 }

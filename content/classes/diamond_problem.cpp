@@ -3,45 +3,45 @@
 class Animal
 {
 public:
-    void comer()
+    void eat()
     {
         std::cout << "Animal está comendo.\n";
     }
 };
 
-class Mamifero : public Animal
+class Mammal : public Animal
 {
 public:
-    void amamentar()
+    void nurse()
     {
         std::cout << "Mamifero está amamentando.\n";
     }
 };
 
-class Ave : public Animal
+class Bird : public Animal
 {
 public:
-    void voar()
+    void fly()
     {
         std::cout << "Ave está voando.\n";
     }
 };
 
 // Herança múltipla que causa o problema do diamante
-class Morcego : public Mamifero, public Ave
+class Bat : public Mammal, public Bird
 {
 public:
-    void mostrarHabilidades()
+    void showAbilities()
     {
-        amamentar();
-        voar();
-        // comer(); // Erro: Ambiguidade - qual comer() chamar?
+        nurse();
+        fly();
+        // eat(); // Erro: Ambiguidade - qual eat() chamar?
     }
 };
 
 int main()
 {
-    Morcego morcego;
-    morcego.mostrarHabilidades();
+    Bat bat;
+    bat.showAbilities();
     return 0;
 }

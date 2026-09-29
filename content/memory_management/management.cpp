@@ -2,7 +2,7 @@
 #include <memory> // Para smart pointers
 
 // 1. Alocação dinâmica de memória (new e delete)
-void exemploNewDelete()
+void newDeleteExample()
 {
     int *ptr = new int(42); // Aloca memória para um int e inicializa com 42
     std::cout << "Valor alocado dinamicamente: " << *ptr << "\n";
@@ -10,21 +10,21 @@ void exemploNewDelete()
 }
 
 // 2. Ponteiros e referências
-void exemploPonteirosReferencias()
+void pointersReferencesExample()
 {
-    int valor = 10;
-    int *ptr = &valor; // Ponteiro para valor
-    int &ref = valor;  // Referência para valor
+    int value = 10;
+    int *ptr = &value; // Ponteiro para value
+    int &ref = value;  // Referência para value
 
-    std::cout << "Valor original: " << valor << "\n";
-    *ptr = 20; // Modifica valor através do ponteiro
-    std::cout << "Valor após modificar via ponteiro: " << valor << "\n";
-    ref = 30; // Modifica valor através da referência
-    std::cout << "Valor após modificar via referência: " << valor << "\n";
+    std::cout << "Valor original: " << value << "\n";
+    *ptr = 20; // Modifica value através do ponteiro
+    std::cout << "Valor após modificar via ponteiro: " << value << "\n";
+    ref = 30; // Modifica value através da referência
+    std::cout << "Valor após modificar via referência: " << value << "\n";
 }
 
 // 3. Smart pointers (unique_ptr, shared_ptr, weak_ptr)
-void exemploSmartPointers()
+void smartPointersExample()
 {
     // unique_ptr: Ponteiro único (não pode ser copiado)
     std::unique_ptr<int> uniquePtr = std::make_unique<int>(100);
@@ -50,45 +50,45 @@ void exemploSmartPointers()
 }
 
 // 4. Gerenciamento de recursos e RAII
-class Recurso
+class Resource
 {
 public:
-    Recurso()
+    Resource()
     {
         std::cout << "Recurso alocado.\n";
     }
 
-    ~Recurso()
+    ~Resource()
     {
         std::cout << "Recurso liberado.\n";
     }
 
-    void usar()
+    void use()
     {
         std::cout << "Recurso em uso.\n";
     }
 };
 
-void exemploRAII()
+void raiiExample()
 {
     // RAII: O recurso é liberado automaticamente quando o objeto sai do escopo
-    Recurso recurso;
-    recurso.usar();
+    Resource resource;
+    resource.use();
 }
 
 int main()
 {
     std::cout << "=== Exemplo de new/delete ===\n";
-    exemploNewDelete();
+    newDeleteExample();
 
     std::cout << "\n=== Exemplo de ponteiros e referências ===\n";
-    exemploPonteirosReferencias();
+    pointersReferencesExample();
 
     std::cout << "\n=== Exemplo de smart pointers ===\n";
-    exemploSmartPointers();
+    smartPointersExample();
 
     std::cout << "\n=== Exemplo de RAII ===\n";
-    exemploRAII();
+    raiiExample();
 
     return 0;
 }

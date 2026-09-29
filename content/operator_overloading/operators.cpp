@@ -3,47 +3,47 @@
 #include <cmath>
 
 // 1. Sobrecarga de operadores para classes
-class Vetor2D
+class Vector2D
 {
 private:
     double x, y;
 
 public:
     // Construtor
-    Vetor2D(double x = 0, double y = 0) : x(x), y(y) {}
+    Vector2D(double x = 0, double y = 0) : x(x), y(y) {}
 
     // Sobrecarga do operador de adição (binário)
-    Vetor2D operator+(const Vetor2D &outro) const
+    Vector2D operator+(const Vector2D &other) const
     {
-        return Vetor2D(x + outro.x, y + outro.y);
+        return Vector2D(x + other.x, y + other.y);
     }
 
     // Sobrecarga do operador de subtração (binário)
-    Vetor2D operator-(const Vetor2D &outro) const
+    Vector2D operator-(const Vector2D &other) const
     {
-        return Vetor2D(x - outro.x, y - outro.y);
+        return Vector2D(x - other.x, y - other.y);
     }
 
     // Sobrecarga do operador de multiplicação por escalar (binário)
-    Vetor2D operator*(double escalar) const
+    Vector2D operator*(double scalar) const
     {
-        return Vetor2D(x * escalar, y * escalar);
+        return Vector2D(x * scalar, y * scalar);
     }
 
     // Sobrecarga do operador de igualdade (binário)
-    bool operator==(const Vetor2D &outro) const
+    bool operator==(const Vector2D &other) const
     {
-        return x == outro.x && y == outro.y;
+        return x == other.x && y == other.y;
     }
 
     // Sobrecarga do operador de negação (unário)
-    Vetor2D operator-() const
+    Vector2D operator-() const
     {
-        return Vetor2D(-x, -y);
+        return Vector2D(-x, -y);
     }
 
     // Sobrecarga do operador de incremento (unário, pré-fixado)
-    Vetor2D &operator++()
+    Vector2D &operator++()
     {
         x++;
         y++;
@@ -51,61 +51,61 @@ public:
     }
 
     // Sobrecarga do operador de incremento (unário, pós-fixado)
-    Vetor2D operator++(int)
+    Vector2D operator++(int)
     {
-        Vetor2D temp = *this;
+        Vector2D temp = *this;
         ++(*this);
         return temp;
     }
 
     // Sobrecarga do operador de conversão para double (conversão explícita)
     // 'explicit' evita conversões implícitas indesejadas (ex.: ambiguidade
-    // entre Vetor2D::operator*(double) e o operator* embutido para double)
+    // entre Vector2D::operator*(double) e o operator* embutido para double)
     explicit operator double() const
     {
         return std::sqrt(x * x + y * y); // Retorna a magnitude do vetor
     }
 
     // Sobrecarga do operador de inserção (<<) como função amiga
-    friend std::ostream &operator<<(std::ostream &os, const Vetor2D &vetor);
+    friend std::ostream &operator<<(std::ostream &os, const Vector2D &vector);
 
     // Método para exibir o vetor
-    void exibir() const
+    void display() const
     {
         std::cout << "(" << x << ", " << y << ")\n";
     }
 };
 
 // Sobrecarga do operador de inserção (<<)
-std::ostream &operator<<(std::ostream &os, const Vetor2D &vetor)
+std::ostream &operator<<(std::ostream &os, const Vector2D &vector)
 {
-    os << "(" << vetor.x << ", " << vetor.y << ")";
+    os << "(" << vector.x << ", " << vector.y << ")";
     return os;
 }
 
 int main()
 {
     // 1. Sobrecarga de operadores para classes
-    Vetor2D v1(3, 4);
-    Vetor2D v2(1, 2);
+    Vector2D v1(3, 4);
+    Vector2D v2(1, 2);
 
     // Operador de adição
-    Vetor2D v3 = v1 + v2;
+    Vector2D v3 = v1 + v2;
     std::cout << "v1 + v2 = " << v3 << "\n";
 
     // Operador de subtração
-    Vetor2D v4 = v1 - v2;
+    Vector2D v4 = v1 - v2;
     std::cout << "v1 - v2 = " << v4 << "\n";
 
     // Operador de multiplicação por escalar
-    Vetor2D v5 = v1 * 2;
+    Vector2D v5 = v1 * 2;
     std::cout << "v1 * 2 = " << v5 << "\n";
 
     // Operador de igualdade
     std::cout << "v1 == v2? " << (v1 == v2 ? "Sim" : "Não") << "\n";
 
     // Operador de negação (unário)
-    Vetor2D v6 = -v1;
+    Vector2D v6 = -v1;
     std::cout << "-v1 = " << v6 << "\n";
 
     // Operador de incremento (pré-fixado)
@@ -113,7 +113,7 @@ int main()
     std::cout << "++v1 = " << v1 << "\n";
 
     // Operador de incremento (pós-fixado)
-    Vetor2D v7 = v2++;
+    Vector2D v7 = v2++;
     std::cout << "v2++ = " << v7 << "\n";
     std::cout << "v2 após incremento = " << v2 << "\n";
 

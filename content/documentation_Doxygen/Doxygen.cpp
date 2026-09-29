@@ -6,44 +6,44 @@
  *
  * Esta classe armazena o nome de um usuário e fornece métodos para acessá-lo.
  */
-class Usuario
+class User
 {
 public:
     /**
-     * @brief Construtor da classe Usuario.
-     * @param nome Nome do usuário.
+     * @brief Construtor da classe User.
+     * @param name Nome do usuário.
      */
-    Usuario(const std::string &nome) : nome_(nome) {}
+    User(const std::string &name) : name_(name) {}
 
     /**
      * @brief Obtém o nome do usuário.
      * @return O nome do usuário.
      */
-    std::string get_nome() const
+    std::string get_name() const
     {
-        return nome_;
+        return name_;
     }
 
 private:
-    std::string nome_; ///< Nome do usuário.
+    std::string name_; ///< Nome do usuário.
 };
 
 /**
  * @brief Função que imprime uma mensagem de boas-vindas.
- * @param nome Nome do usuário a ser saudado.
+ * @param name Nome do usuário a ser saudado.
  */
-void saudar(const std::string &nome)
+void greet(const std::string &name)
 {
-    std::cout << "Olá, " << nome << "!\n";
+    std::cout << "Olá, " << name << "!\n";
 }
 
 int main()
 {
-    // Cria um objeto Usuario
-    Usuario usuario("João");
+    // Cria um objeto User
+    User user("João");
 
     // Sauda o usuário
-    saudar(usuario.get_nome());
+    greet(user.get_name());
 
     return 0;
 }

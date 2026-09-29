@@ -3,45 +3,45 @@
 class Animal
 {
 public:
-    void comer()
+    void eat()
     {
         std::cout << "Animal está comendo.\n";
     }
 };
 
-class Mamifero : virtual public Animal
+class Mammal : virtual public Animal
 { // Herança virtual
 public:
-    void amamentar()
+    void nurse()
     {
         std::cout << "Mamifero está amamentando.\n";
     }
 };
 
-class Ave : virtual public Animal
+class Bird : virtual public Animal
 { // Herança virtual
 public:
-    void voar()
+    void fly()
     {
         std::cout << "Ave está voando.\n";
     }
 };
 
 // Herança múltipla com herança virtual
-class Morcego : public Mamifero, public Ave
+class Bat : public Mammal, public Bird
 {
 public:
-    void mostrarHabilidades()
+    void showAbilities()
     {
-        amamentar();
-        voar();
-        comer(); // Agora não há ambiguidade
+        nurse();
+        fly();
+        eat(); // Agora não há ambiguidade
     }
 };
 
 int main()
 {
-    Morcego morcego;
-    morcego.mostrarHabilidades();
+    Bat bat;
+    bat.showAbilities();
     return 0;
 }

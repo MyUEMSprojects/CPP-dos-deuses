@@ -5,27 +5,27 @@
 /*
  Smart Pointers (std::unique_ptr)
 
-    Crie uma classe Pessoa com atributos nome (string) e idade (int).
+    Crie uma classe Person com atributos name (string) e age (int).
 
-    Use std::unique_ptr para gerenciar a alocação dinâmica de um objeto Pessoa.
+    Use std::unique_ptr para gerenciar a alocação dinâmica de um objeto Person.
 
-    Modifique o nome e a idade da pessoa e imprima os valores.
+    Modifique o name e a age da pessoa e imprima os valores.
 
     Não se esqueça de que o std::unique_ptr libera a memória automaticamente.
 */
 
-class Pessoa
+class Person
 {
 private:
     std::string name;
     int age;
 public:
-    Pessoa(/* args */): name(""), age(0) {
+    Person(/* args */): name(""), age(0) {
         std::cout << "Objeto inicalizado!" << "\n";
     }
 
-    ~Pessoa() {
-        std::cout << "Memoria de Pessoa liberada!";
+    ~Person() {
+        std::cout << "Memoria de Person liberada!";
     }
 
     void setName(std::string name) {
@@ -48,10 +48,10 @@ public:
 
 int main()
 {
-    std::unique_ptr<Pessoa> pessoaPtr = std::make_unique<Pessoa>();
-    pessoaPtr->setName("Felipe");
-    pessoaPtr->setAge(22);
+    std::unique_ptr<Person> personPtr = std::make_unique<Person>();
+    personPtr->setName("Felipe");
+    personPtr->setAge(22);
 
-    std::cout << "Nome: " << pessoaPtr->getName() << ", Idade: " << pessoaPtr->getAge() << "\n";
+    std::cout << "Nome: " << personPtr->getName() << ", Idade: " << personPtr->getAge() << "\n";
     return 0;
 }
